@@ -2,20 +2,26 @@ package com.example.climbachiya.databasedemo;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     CheckBox chkAndroid, chkIphone;
     ArrayAdapter<String> dataAdapter;
     String gender = null;
-    String interest = "";
     //class members
     String businessType[] = {"Automobile", "Food", "Computers", "Education",
             "Personal", "Travel"};
@@ -113,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
 
+
         arrInterest = new ArrayList<>();
 
         dataAdapter = new ArrayAdapter<String>(this,
@@ -131,8 +137,15 @@ public class MainActivity extends AppCompatActivity {
         rdbGroup = (RadioGroup) findViewById(R.id.radio_group);
         chkAndroid = (CheckBox) findViewById(R.id.check_android);
         chkIphone = (CheckBox) findViewById(R.id.check_iphone);
+
     }
 
+    //View all records from DB
+    public void viewAllRecords(View view) {
+        startActivity(new Intent(this, ViewData.class));
+    }
+
+    //Save record in DB
     public void saveData(View view) {
 
         String name = edtName.getText().toString();
