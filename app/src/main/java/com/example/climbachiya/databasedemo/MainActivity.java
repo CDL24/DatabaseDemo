@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         chkIphone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
+
                     if (isChecked){
                         arrInterest.add("iphone");
                     }else{
@@ -166,8 +167,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Select interest", Toast.LENGTH_SHORT).show();
         } else {
 
+            for(int i=0; i<arrInterest.size(); i++){
+                Log.v("i : "+i, arrInterest.get(i));
+            }
             //call async for save data in background
-            new SaveAsync(name, email, spinnerItem, gender, arrInterest).execute();
+            //new SaveAsync(name, email, spinnerItem, gender, arrInterest).execute();
         }
     }
 
