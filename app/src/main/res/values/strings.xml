@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DatabaseDemo</string>
+
+    <string name="spinner_title">Choose item</string>
+</resources>
