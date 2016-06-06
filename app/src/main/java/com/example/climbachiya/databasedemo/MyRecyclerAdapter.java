@@ -1,7 +1,9 @@
 package com.example.climbachiya.databasedemo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,6 +40,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
         holder.textName.setText(item.getName());
         holder.textEmail.setText(item.getEmail());
 
+        holder.imgBtnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editRow(position);
+            }
+        });
         holder.imgBtnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,16 +87,28 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textName;
         public TextView textEmail;
-        public TextView textMobile;
         public ImageButton imgBtnDelete;
+        public ImageButton imgBtnEdit;
 
         public ViewHolder(View itemView) {
             super(itemView);
             textName = (TextView) itemView.findViewById(R.id.text_name);
             textEmail = (TextView) itemView.findViewById(R.id.text_email);
             imgBtnDelete = (ImageButton) itemView.findViewById(R.id.image_btn_delete);
-
+            imgBtnEdit = (ImageButton) itemView.findViewById(R.id.image_btn_edit);
         }
+    }
+
+    /**
+     * Edit record in database
+     * @param position - row position in array list
+     */
+    private void editRow(int position) {
+        String rowId = items.get(position).getId();
+        Intent intentEdit = new Intent(mContext, MainActivity.class);
+        intentEdit.putExtra("ROW_ID", rowId);
+        mContext.startActivity(intentEdit);
+        ((Activity)mContext).finish();
     }
 
     //Remove item
@@ -101,8 +121,6 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.Vi
             String[] whereArgs = new String[]{rowId};
             int result = dbHandler.deleteRecord(DatabaseHandler.TABLE_CONTACTS, whereClause, whereArgs);
 
-            Log.v("removeItem: ","rowId > "+rowId);
-            Log.v("removeItem: ","result > "+result);
             if(result > 0){
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, items.size());

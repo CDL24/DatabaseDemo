@@ -79,6 +79,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return returnVal;
     }
 
+    //Update into tables
+    public int updateQuery(String TABLE, ContentValues values, String whereClause, String[] whereArgs) {
+
+        int returnVal = 0;
+
+        try {
+            sqLiteDatabase = getDatabaseMode("write");
+            // Inserting Row
+            returnVal = sqLiteDatabase.update(TABLE, values, whereClause, whereArgs);
+
+        } catch (Exception e) {
+            returnVal = 0;
+            e.printStackTrace();
+        }
+        return returnVal;
+    }
+
     //Get data by specific records using where clause in query
     public Cursor getDataByCustomQuery(String QUERY, String[] args) {
 
